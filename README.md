@@ -18,7 +18,7 @@ need the source code, just take, here what I say is the license.
 
 Currently I'm working at [@patractlabs][patractlabs] for making a life and 
 integrating into the society, doing [substrate][substrate] things and maybe
-some wasm things.
+some WASM things.
 
 I'm curious about the distributed *, wasm, rust is the besting programming
 language.
