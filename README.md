@@ -16,7 +16,7 @@ they haven't learn programming at school, it's okay.
 All of the projects I have built are terming to be free softwares, if you
 need the source code, just take, here what I say is the license.
 
-Currently I'm working at [@patractlabs][patractlabs] for making life and 
+Currently I'm working at [@patractlabs][patractlabs] for making a life and 
 integrating into the society, doing [substrate][substrate] things and maybe
 some wasm things.
 
