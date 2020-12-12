@@ -9,7 +9,7 @@ The final and the greatest project of mine in this world of the internet
 is creating amazing frameworks for building APPs, [cdr.today][cdr.today] 
 for backend and [elvis][elvis] for the frontend, the aspiration of these
 two projects is anybody can construct their own APPs based on them even 
-they haven't learn programming at school, it's okay.
+they haven't learn programming at school, it's fine.
 
 All of the projects I have built are terming to be free softwares, if you
 need the source code, just take, here what I say is the license.
