@@ -19,7 +19,7 @@ integrating into the society, doing [substrate][substrate] things and maybe
 some WASM things.
 
 I'm curious about the distributed *, wasm, rust is the besting programming
-language.
+language, and emacs is the best editor.
 
 That is.
 
