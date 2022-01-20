@@ -144,6 +144,49 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="transactional"><a class="header" href="#transactional">transactional</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Sample</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/PINT">ChainSafe/PINT</a></td><td><a href="https://github.com/ChainSafe/PINT/pull/294">ChainSafe/PINT#294</a></td><td><a href="https://github.com/ChainSafe/PINT/blob/acb2900a8bf45044aa15c0dd22d2d947f168bf2f/pallets/asset-index/src/lib.rs#L700">pallets/asset-index/src/lib.rs#L700</a></td></tr>
+</tbody></table>
+<p>This sample basicly shows how to handle storage mutation in failing transactions.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// use `#[transaction]` to prevent commiting changes into storage in a failing transaction
+//
+// https://docs.substrate.io/rustdocs/latest/frame_support/attr.transactional.html
+#[transactional]
+pub fn complete_withdraw(origin: OriginFor&lt;T&gt;) -&gt; DispatchResult {
+	let caller = T::AdminOrigin::ensure_origin(origin.clone())?;
+	let current_block = frame_system::Pallet::&lt;T&gt;::block_number();
+
+    // use `try_mutate_exists` to prevent mutating storage in a failing transaction
+    //
+    // https://docs.substrate.io/rustdocs/latest/frame_support/storage/trait.StorageMap.html#tymethod.try_mutate_exists
+	PendingWithdrawals::&lt;T&gt;::try_mutate_exists(&amp;caller, |maybe_pending| -&gt; DispatchResult {
+		let pending = maybe_pending.take().ok_or(&lt;Error&lt;T&gt;&gt;::NoPendingWithdrawals)?;
+		let still_pending: Vec&lt;_&gt; = pending
+			.into_iter()
+			.filter_map(|mut redemption| {
+				if redemption.end_block &gt;= current_block &amp;&amp;
+					Self::do_complete_redemption(&amp;caller, &amp;mut redemption.assets)
+				{
+					Self::deposit_event(Event::WithdrawalCompleted(caller.clone(), redemption.assets));
+					return None;
+				}
+				Some(redemption)
+			})
+			.collect();
+
+		if !still_pending.is_empty() {
+			*maybe_pending = Some(still_pending);
+		}
+
+		Ok(())
+	})
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>there were some confusion about the design in <code>#294</code>, quite pain, but finally learned sth from that.</p>
 
                     </main>
 
