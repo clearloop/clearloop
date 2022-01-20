@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
@@ -27,3 +27,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
+          force_orphan: true
