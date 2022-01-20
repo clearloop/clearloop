@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v1
         with:
-          mdbook-version: 'latest'
+          mdbook-version: '0.4.10'
 
       - run: mdbook build
 
@@ -27,4 +27,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
-          force_orphan: true
