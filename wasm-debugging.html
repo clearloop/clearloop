@@ -144,6 +144,271 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="wasm-debugging"><a class="header" href="#wasm-debugging">wasm debugging</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/paritytech/cargo-contract">paritytech/cargo-contract</a></td><td><a href="https://github.com/paritytech/cargo-contract/pull/131">paritytech/cargo-contract#131</a></td></tr>
+<tr><td><a href="https://github.com/paritytech/parity-wasm">paritytech/parity-wasm</a></td><td><a href="https://github.com/paritytech/parity-wasm/pull/300">paritytech/parity-wasm#300</a></td></tr>
+<tr><td><a href="https://github.com/paritytech/wasm-utils">paritytech/wasm-utils</a></td><td><a href="https://github.com/paritytech/wasm-utils/pull/146">paritytech/wasm-utils#146</a></td></tr>
+<tr><td><a href="a">patractlabs/wasmi</a></td><td><a href="https://github.com/patractlabs/wasmi/pulls?q=is%3Apr+is%3Aclosed">patractlabs/wasmi#pulls</a></td></tr>
+</tbody></table>
+<p>This sample introduces what I did in <a href="https://polkadot.polkassembly.io/post/250">polkassembly#250</a></p>
+<p>the wasm contract haven't have the ability to debug wasm traps at that time,
+so what I did are distributed in <code>cargo-contract</code>, <code>wasmi</code>, <code>wasm-utils</code>, etc.</p>
+<h2 id="0-keep-dwarf-from-rustc"><a class="header" href="#0-keep-dwarf-from-rustc">0. keep DWARF from rustc</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! src/cmd/build.rs
+
+fn build_cargo_project(
+    crate_metadata: &amp;CrateMetadata,
+    verbosity: Option&lt;Verbosity&gt;,
+    unstable_flags: UnstableFlags,
+    debug: bool,
+) -&gt; Result&lt;()&gt; {
+    let mut flags =
+        &quot;-C link-arg=-z -C link-arg=stack-size=65536 -C link-arg=--import-memory&quot;.to_string();
+    if debug {
+        // NOTE:
+        //
+        // use opt-level=1 to keep more debug info, including DWARF of wasm
+        // file to debug source with line number
+        flags.push_str(&quot; -C opt-level=1&quot;);
+    }
+    std::env::set_var(&quot;RUSTFLAGS&quot;, flags);
+    
+    // ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/paritytech/cargo-contract">paritytech/cargo-contract#131</a></p>
+<h2 id="1-keep-name-section-from-striping"><a class="header" href="#1-keep-name-section-from-striping">1. keep name section from striping</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! src/cmd/build.rs
+fn strip_custom_sections(module: &amp;mut Module, debug: bool) {
+    module.sections_mut().retain(|section| match section {
+        Section::Custom(_) =&gt; false,
+        // NOTE
+        //
+        // https://webassembly.github.io/spec/core/appendix/custom.html#name-section
+        // describe which function failed in our source code
+        Section::Name(_) =&gt; debug,
+        Section::Reloc(_) =&gt; false,
+        _ =&gt; true,
+    });
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/paritytech/cargo-contract">paritytech/cargo-contract#131</a></p>
+<h2 id="2-keep-debug-info-from-wasm-opt"><a class="header" href="#2-keep-debug-info-from-wasm-opt">2. keep debug info from <code>wasm-opt</code></a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! src/cmd/build.rs
+fn optimize_wam(
+    crate_metadata: &amp;CrateMetadata,
+    debug_info: bool,
+) -&gt; Result&lt;(OptimizationResult, Option&lt;PathBuf&gt;)&gt; {
+    let codegen_config = binaryen::CodegenConfig {
+        // execute -O3 optimization passes (spends potentially a lot of time optimizing)
+        optimization_level: 3,
+        // the default
+        shrink_level: 1,
+        // the default
+        debug_info,
+    };
+    
+    // ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/paritytech/cargo-contract">paritytech/cargo-contract#131</a></p>
+<h2 id="3-store-name-section-while-building-wasm-module"><a class="header" href="#3-store-name-section-while-building-wasm-module">3. store name section while building WASM module</a></h2>
+<p>this operation happens in <code>pallet-contracts</code>, which just drops
+the name section again.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl From&lt;elements::Module&gt; for ModuleScaffold {
+	fn from(module: elements::Module) -&gt; Self {
+		
+        // ...
+
+		let mut other = Vec::new();
+		let mut sections = module.into_sections();
+		while let Some(section) = sections.pop() {
+			match section {
+			    element: element.unwrap_or_default(),
+			    code: code.unwrap_or_default(),
+			    data: data.unwrap_or_default(),
+                // NOTE: name section belongs to custom section which is `other` here
+			    other,
+            }
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/paritytech/parity-wasm/pull/300">paritytech/parity-wasm#300</a></p>
+<h2 id="4-update-function-indices-in-name-section-while-injecting-gas-meter"><a class="header" href="#4-update-function-indices-in-name-section-while-injecting-gas-meter">4. update function indices in name section while injecting gas meter</a></h2>
+<p>this also happens in <code>pallet-contracts</code>, they changes the function indecies
+while injecting gas meter functions</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn inject_gas_counter&lt;R: Rules&gt;(
+	module: elements::Module,
+	rules: &amp;R,
+	gas_module_name: &amp;str,
+	process_names: ProcessNames,
+)
+	-&gt; Result&lt;elements::Module, elements::Module&gt;
+{
+    
+    // ...
+    
+    elements::Section::Name(section) =&gt; {
+		match process_names {
+			ProcessNames::No =&gt; {},
+            ProcessNames::UnsafeYes =&gt; {
+                if let Some(funcs) = section.functions_mut() {
+                    let mut new_names = elements::IndexMap::&lt;String&gt;::default();
+                    for (idx, func) in funcs.names().iter() {
+                        if idx &gt;= gas_func {
+                            new_names.insert(idx + 1, String::from(func));
+                        } else {
+                            new_names.insert(idx, String::from(func));
+                        }
+                    }
+
+                    *funcs.names_mut() = new_names;
+                }
+            }
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/paritytech/wasm-utils/pull/146">paritytech/wasm-utils#146</a></p>
+<h2 id="5-implement-wasm-backtrace-to-wasmi"><a class="header" href="#5-implement-wasm-backtrace-to-wasmi">5. implement wasm backtrace to wasmi</a></h2>
+<p>this part is quite complex since <code>wasmi</code> doesn't have this design.</p>
+<h3 id="50-store-function-name-in-funcref"><a class="header" href="#50-store-function-name-in-funcref">5.0. store function name in <code>FuncRef</code></a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! patractlabs/wasmi/src/func.rs#L22
+
+// ...
+
+pub struct FuncRef {
+    
+    // ...
+    
+    // Function name
+    name: Option&lt;String&gt;,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/patractlabs/wasmi/pull/1/files">patractlabs/wasmi#1</a></p>
+<h3 id="51-set-function-info-using-name-section-while-parsing-wasm-modules"><a class="header" href="#51-set-function-info-using-name-section-while-parsing-wasm-modules">5.1 set function info using name section while parsing WASM modules</a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! patractlabs/wasmi/src/modules.rs#228
+
+fn alloc_module&lt;'i, I: Iterator&lt;Item = &amp;'i ExternVal&gt;&gt;(
+    loaded_module: &amp;Module,
+    extern_vals: I,
+) -&gt; Result&lt;ModuleRef, Error&gt; {
+
+    // ...
+
+    // If has names section
+    let mut has_name_section = true;
+    let empty_index_map = IndexMap::with_capacity(0);
+    let function_names = loaded_module.name_map().unwrap_or_else(|| {
+        has_name_section = false;
+        &amp;empty_index_map
+    });
+    
+    // ...
+    
+    for (index, (ty, body)) in Iterator::zip(
+      funcs.into_iter(), bodies.into_iter()
+    ).enumerate() {
+    
+        // ...
+        
+        if has_name_section {
+            func_instance = func_instance.set_name(function_names.get(index as u32));
+        }
+        instance.push_func(func_instance);
+    }
+    
+    // ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/patractlabs/wasmi/pull/1/files">patractlabs/wasmi#1</a></p>
+<h3 id="52-make-the-interpreter-support-trace"><a class="header" href="#52-make-the-interpreter-support-trace">5.2 make the interpreter support trace</a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! patractlabs/wasmi/src/runner.rs#L1471
+
+impl CallStack {
+    /// Get the functions of current the stack
+    pub fn trace(&amp;self) -&gt; Vec&lt;Option&lt;&amp;String&gt;&gt; {
+        self.buf.iter().map(|f| f.name()).collect::&lt;Vec&lt;_&gt;&gt;()
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/patractlabs/wasmi/pull/1/files">patractlabs/wasmi#1</a></p>
+<h3 id="53-gather-debug-infos-when-program-breaks"><a class="header" href="#53-gather-debug-infos-when-program-breaks">5.3 gather debug infos when program breaks</a></h3>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! patractlabs/wasmi/src/func.rs#163
+
+pub fn invoke&lt;E: Externals&gt;(
+    func: &amp;FuncRef,
+    args: &amp;[RuntimeValue],
+    externals: &amp;mut E,
+) -&gt; Result&lt;Option&lt;RuntimeValue&gt;, Trap&gt; {
+    
+    // ...
+
+    match *func.as_internal() {
+        FuncInstanceInternal::Internal { .. } =&gt; {
+            let mut interpreter = Interpreter::new(func, args, None)?;
+            let res = interpreter.start_execution(externals);
+            if res.is_err() {
+                let mut stack = interpreter
+                    .trace_stack()
+                    .iter()
+                    .filter_map(|n| n.as_ref())
+                    .map(|n| rustc_demangle::demangle(n).to_string())
+                    .collect::&lt;Vec&lt;_&gt;&gt;();
+                stack.reverse();
+
+                // Embed this info into the trap
+                res.map_err(|e| e.set_wasm_trace(stack))
+            } else {
+                res
+            }
+        }
+        
+        // ...
+        
+    }
+    
+    // ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/patractlabs/wasmi/pull/1/files">patractlabs/wasmi#1</a></p>
 
                     </main>
 
