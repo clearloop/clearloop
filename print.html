@@ -118,7 +118,10 @@
                                                 <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                                                                        
+                                                                        <a href="https://github.com/clearloop/clearloop" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                                                
                     </div>
                 </div>
 
@@ -148,8 +151,8 @@
 <p>hello, it'me, again.</p>
 <p>this book introduces <a href="https://github.com/clearloop">@clearloop</a>'s work in <a href="https://github.com/paritytech/substrate">substrate</a> with code samples.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="transactional"><a class="header" href="#transactional">transactional</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Sample</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/ChainSafe/PINT">ChainSafe/PINT</a></td><td><a href="https://github.com/ChainSafe/PINT/pull/294">ChainSafe/PINT#294</a></td><td><a href="https://github.com/ChainSafe/PINT/blob/acb2900a8bf45044aa15c0dd22d2d947f168bf2f/pallets/asset-index/src/lib.rs#L700">pallets/asset-index/src/lib.rs#L700</a></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/PINT">ChainSafe/PINT</a></td><td><a href="https://github.com/ChainSafe/PINT/pull/294">ChainSafe/PINT#294</a></td></tr>
 </tbody></table>
 <p>This sample basicly shows how to handle storage mutation in failing transactions.</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -192,8 +195,8 @@ pub fn complete_withdraw(origin: OriginFor&lt;T&gt;) -&gt; DispatchResult {
 </span></code></pre></pre>
 <p>there were some confusion about the design in <code>#294</code>, quite pain, but finally learned sth from that.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="runtime-interfaces"><a class="header" href="#runtime-interfaces">runtime interfaces</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/ChainSafe/filecoindot">ChainSafe/filecoindot</a></td><td><a href="https://github.com/ChainSafe/filecoindot/pull/89">ChainSafe/filecoindot#89</a></td><td></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/filecoindot">ChainSafe/filecoindot</a></td><td><a href="https://github.com/ChainSafe/filecoindot/pull/89">ChainSafe/filecoindot#89</a></td></tr>
 </tbody></table>
 <p>this sample shows how to use runtime interfaces to call <code>std</code> methods in pallets.</p>
 <p>original learned this in <a href="https://github.com/patractlabs/europa">patractlabs/europa</a> for zk-proof, worked on a forked branch
@@ -261,8 +264,8 @@ impl&lt;T: Config&gt; Pallet&lt;T&gt; {
 </span></code></pre></pre>
 <p><a href="https://github.com/ChainSafe/filecoindot/blob/9c0cdcf271047da0b222a7e487a39bf25d08907c/filecoindot/src/lib.rs#L388">ChainSafe/filecoindot/filecoindot/src/lib.rs#L388</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="xcm-debugging"><a class="header" href="#xcm-debugging">XCM debugging</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Sample</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/ChainSafe/PINT">ChainSafe/PINT</a></td><td><a href="https://github.com/ChainSafe/PINT/pull/474">ChainSafe/PINT#474</a></td><td></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/PINT">ChainSafe/PINT</a></td><td><a href="https://github.com/ChainSafe/PINT/pull/474">ChainSafe/PINT#474</a></td></tr>
 </tbody></table>
 <p>this part is not a sample in strict, just shows what I did in <code>#294</code> for debugging
 XCM transactions.</p>
@@ -365,8 +368,8 @@ debug this issue if you're writing an integration tests between kusama and you D
 </span></code></pre></pre>
 <p><a href="https://github.com/ChainSafe/PINT/blob/acb2900a8bf45044aa15c0dd22d2d947f168bf2f/runtime/integration-tests/src/prelude.rs#L19">ChainSafe/PINT/runtime/integration-tests/src/prelude.rs#L19</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="method-selector"><a class="header" href="#method-selector">method selector</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td></tr>
 </tbody></table>
 <p>this sample basicly introduces the selector implementation in ceres, which just 
 like the implementation in <code>pallet-contracts</code>.</p>
@@ -405,8 +408,8 @@ pub fn parse_args(selector: &amp;str, args: Vec&lt;Vec&lt;u8&gt;&gt;, tys: Vec&l
 <p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/runtime/src/method.rs#L22">ceres/crates/runtime/src/method.rs#L22</a></p>
 <p>for how to handle this data in the executor, plz read the next chapter.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="data-exchange"><a class="header" href="#data-exchange">data exchange</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td></tr>
 </tbody></table>
 <p>this sample introduces the shared data between wasm environment and the runtime
 of smart contract.</p>
@@ -520,8 +523,8 @@ pub fn wrap_fn&lt;T&gt;(store: &amp;Store, state: usize, f: usize, sig: FuncType
 </span></code></pre></pre>
 <p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/executor/src/wasmtime/util.rs#L27">ceres/crates/executor/src/wasmtime/util.rs#L27</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="frame-implementation"><a class="header" href="#frame-implementation">frame implementation</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td><a href="https://github.com/clearloop/ceres/pull/73">clearloop/ceres/#73</a></td><td></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td><a href="https://github.com/clearloop/ceres/pull/73">clearloop/ceres/#73</a></td></tr>
 </tbody></table>
 <p>Here is an implementation of <code>frame</code> in ceres, like the <code>stack</code> in <code>pallet-contracts</code>,
 this enables calling contracts inside contracts.</p>
@@ -633,8 +636,8 @@ pub fn invoke(
 <p>in this sample, we call the method of the callee contract and get back to the top level,
 all of this are embedded in a wasm call.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="function-generator"><a class="header" href="#function-generator">function generator</a></h1>
-<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td></tr>
 </tbody></table>
 <p>this is just a show case of the function generator in ceres.</p>
 <pre><pre class="playground"><code class="language-rust">
