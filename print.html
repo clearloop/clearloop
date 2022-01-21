@@ -1107,6 +1107,95 @@ impl CodeExecutor for NativeExecutor {
 </span></code></pre></pre>
 <p><a href="https://github.com/patractlabs/vertic/blob/422dd12c0b096ebf65ad4065d17872d0e62ed9ac/node/magnet/src/service.rs#L40">vertic/node/magnet/src/service.rs#L40</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="use-offchain-storage-in-rpc"><a class="header" href="#use-offchain-storage-in-rpc">use offchain storage in rpc</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/filecoindot">Chainsafe/filecoindot</a></td><td><a href="https://github.com/ChainSafe/filecoindot/pull/60">ChainSafe/filecoindot#60</a></td></tr>
+</tbody></table>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! substrate-node-example/node/src/rpc.rs
+
+// ...
+
+pub struct FullDeps&lt;C, P, S&gt; {
+    /// The offchain storage instance to use.
+    pub storage: Option&lt;Arc&lt;RwLock&lt;S&gt;&gt;&gt;,
+    /// The client instance to use.
+    pub client: Arc&lt;C&gt;,
+}
+
+// ...
+
+
+pub fn create_full&lt;C, P, S&gt;(deps: FullDeps&lt;C, P, S&gt;) -&gt; jsonrpc_core::IoHandler&lt;sc_rpc::Metadata&gt;
+where
+    C: ProvideRuntimeApi&lt;Block&gt;,
+    C: HeaderBackend&lt;Block&gt; + HeaderMetadata&lt;Block, Error = BlockChainError&gt; + 'static,
+    C::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi&lt;Block, Balance&gt;,
+    C::Api: BlockBuilder&lt;Block&gt;,
+    P: TransactionPool + 'static,
+    // NOTE
+    //
+    // add `OffchainStorage` API
+    S: OffchainStorage + 'static,
+{
+    use filecoindot_rpc::{Filecoindot, FilecoindotApi};
+    use pallet_transaction_payment_rpc::{TransactionPayment, TransactionPaymentApi};
+    use substrate_frame_rpc_system::{FullSystem, SystemApi};
+
+    let mut io = jsonrpc_core::IoHandler::default();
+    let FullDeps {
+        client,
+        deny_unsafe,
+        pool,
+        storage,
+    } = deps;
+
+    io.extend_with(SystemApi::to_delegate(FullSystem::new(
+
+    // NOTE
+    //
+    // extend filecoindot rpc
+    if let Some(storage) = storage {
+        io.extend_with(FilecoindotApi::to_delegate(Filecoindot::new(storage)));
+    }
+
+    io
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! substrate-node-example/node/src/service.rs
+
+pub fn new_full(mut config: Configuration) -&gt; Result&lt;TaskManager, ServiceError&gt; {
+
+    // ...
+
+    // NOTE
+    //
+    // this is quite tricky since we need to get the offchain storage from `backend`
+    let storage = backend.offchain_storage().map(|s| Arc::new(RwLock::new(s)));
+    
+    let rpc_extensions_builder = {
+        let client = client.clone();
+        let pool = transaction_pool.clone();
+        Box::new(move |deny_unsafe, _| {
+            let deps = crate::rpc::FullDeps {
+                client: client.clone(),
+                pool: pool.clone(),
+                deny_unsafe,
+            };
+            Ok(crate::rpc::create_full(deps))
+        })
+    };
+    
+    // ...
+}
+
+<span class="boring">}
+</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="offchain-worker-implementation"><a class="header" href="#offchain-worker-implementation">offchain worker implementation</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="call-method-with-mocked-origin"><a class="header" href="#call-method-with-mocked-origin">call method with mocked origin</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="polkadotjs-e2e-util"><a class="header" href="#polkadotjs-e2e-util">polkadotjs e2e util</a></h1>
