@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>call method with mocked origin - clearloop</title>
+        <title>get public keys from runtime - clearloop</title>
                 
 
         <!-- Custom HTML head -->
@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">intro</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> pallet-operation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="transactional.html"><strong aria-hidden="true">1.1.</strong> transactional</a></li><li class="chapter-item expanded "><a href="runtime-interfaces.html"><strong aria-hidden="true">1.2.</strong> runtime interfaces</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> parachain</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="xcm-debugging.html"><strong aria-hidden="true">2.1.</strong> XCM debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> smart contract</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="method-selector.html"><strong aria-hidden="true">3.1.</strong> method selector</a></li><li class="chapter-item expanded "><a href="data-exchange.html"><strong aria-hidden="true">3.2.</strong> data exchange</a></li><li class="chapter-item expanded "><a href="frame-implementation.html"><strong aria-hidden="true">3.3.</strong> frame implementation</a></li><li class="chapter-item expanded "><a href="function-generator.html"><strong aria-hidden="true">3.4.</strong> function generator</a></li><li class="chapter-item expanded "><a href="wasm-debugging.html"><strong aria-hidden="true">3.5.</strong> wasm debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> client</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="refactor-call-executor.html"><strong aria-hidden="true">4.1.</strong> refactor call executor</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> rpc</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-offchain-storage-in-rpc.html"><strong aria-hidden="true">5.1.</strong> use offchain storage in rpc</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> ocw</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="offchain-worker-implementation.html"><strong aria-hidden="true">6.1.</strong> offchain worker implementation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> benchmarks</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="call-method-with-mocked-origin.html" class="active"><strong aria-hidden="true">7.1.</strong> call method with mocked origin</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> polkadotjs</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="polkadotjs-e2e-util.html"><strong aria-hidden="true">8.1.</strong> polkadotjs e2e util</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">intro</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> pallet-operation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="transactional.html"><strong aria-hidden="true">1.1.</strong> transactional</a></li><li class="chapter-item expanded "><a href="runtime-interfaces.html"><strong aria-hidden="true">1.2.</strong> runtime interfaces</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> parachain</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="xcm-debugging.html"><strong aria-hidden="true">2.1.</strong> XCM debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> smart contract</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="method-selector.html"><strong aria-hidden="true">3.1.</strong> method selector</a></li><li class="chapter-item expanded "><a href="data-exchange.html"><strong aria-hidden="true">3.2.</strong> data exchange</a></li><li class="chapter-item expanded "><a href="frame-implementation.html"><strong aria-hidden="true">3.3.</strong> frame implementation</a></li><li class="chapter-item expanded "><a href="function-generator.html"><strong aria-hidden="true">3.4.</strong> function generator</a></li><li class="chapter-item expanded "><a href="wasm-debugging.html"><strong aria-hidden="true">3.5.</strong> wasm debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> client</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="refactor-call-executor.html"><strong aria-hidden="true">4.1.</strong> refactor call executor</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> rpc</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-offchain-storage-in-rpc.html"><strong aria-hidden="true">5.1.</strong> use offchain storage in rpc</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> ocw</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="get-public-keys-from-runtime.html" class="active"><strong aria-hidden="true">6.1.</strong> get public keys from runtime</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> benchmarks</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="call-method-with-customized-origin.html"><strong aria-hidden="true">7.1.</strong> call method with customized origin</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> polkadotjs</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="polkadotjs-e2e-util.html"><strong aria-hidden="true">8.1.</strong> polkadotjs e2e util</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -143,17 +143,45 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="call-method-with-mocked-origin"><a class="header" href="#call-method-with-mocked-origin">call method with mocked origin</a></h1>
+                        <h1 id="get-public-keys-from-runtime"><a class="header" href="#get-public-keys-from-runtime">get public keys from runtime</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/filecoindot">Chainsafe/filecoindot</a></td><td><a href="https://github.com/ChainSafe/filecoindot/pull/181">ChainSafe/filecoindot#181</a></td></tr>
+</tbody></table>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! filecoindot/src/ocw/mod.rs#66
+
+fn bootstrap&lt;T: Config&gt;(_: T::BlockNumber, urls: &amp;[&amp;str]) -&gt; Result&lt;()&gt; {
+    // NOTE
+    //
+    // get public keys from keystore
+    let all_public: Vec&lt;Vec&lt;u8&gt;&gt; = &lt;FilecoindotId as frame_system::offchain::AppCrypto&lt;
+        &lt;Sr25519Signature as Verify&gt;::Signer,
+        Sr25519Signature,
+    &gt;&gt;::RuntimeAppPublic::all()
+    .into_iter()
+    .map(|key| key.encode())
+    .collect();
+    
+    // ...
+    
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/ChainSafe/filecoindot/pull/181">ChainSafe/filecoindot#181</a></p>
+<p>the common usages of these public keys al for the session of staking, here we can get
+the keys in offchain worker for validating them to execute our offchain logic.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="offchain-worker-implementation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="use-offchain-storage-in-rpc.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
-                                                    <a rel="next" href="polkadotjs-e2e-util.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                                    <a rel="next" href="call-method-with-customized-origin.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -163,11 +191,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="offchain-worker-implementation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="use-offchain-storage-in-rpc.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
-                                    <a rel="next" href="polkadotjs-e2e-util.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                    <a rel="next" href="call-method-with-customized-origin.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                             </nav>
