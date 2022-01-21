@@ -1,1 +1,0 @@
-# offchain worker implementation

@@ -56,6 +56,12 @@ where
 }
 ```
 
+[ChainSafe/filecoindot#60][#60]
+
+
+add offchain storage api and extend subtrate rpc.
+
+
 ```rust
 //! substrate-node-example/node/src/service.rs
 
@@ -85,6 +91,10 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
 }
 
 ```
+
+[ChainSafe/filecoindot#60][#60]
+
+get offchain storage from backend.
 
 
 [filecoindot]: https://github.com/ChainSafe/filecoindot
