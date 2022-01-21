@@ -145,8 +145,93 @@
                     <main>
                         <h1 id="refactor-call-executor"><a class="header" href="#refactor-call-executor">refactor call executor</a></h1>
 <table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
-<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+<tr><td><a href="https://github.com/patractlabs/vertic">patractlabs/vertic</a></td><td><a href="https://github.com/patractlabs/vertic/pull/88">patractlabs/vertic#88</a></td><td></td></tr>
 </tbody></table>
+<p>This sample kick out the wasm exection from substrate client, and removed a lot of
+generics.</p>
+<h2 id="0-construct-a-native-only-executor"><a class="header" href="#0-construct-a-native-only-executor">0. construct a native-only executor</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//! vertic/client/service/src/client/executor.rs
+
+pub struct NativeExecutor {
+    /// NOTE:
+    ///
+    /// use a simple pointer instead of a customized trait
+    ///
+    pub dispatch: fn(&amp;str, &amp;[u8]) -&gt; Option&lt;Vec&lt;u8&gt;&gt;,
+    /// native version
+    pub version: NativeVersion,
+}
+
+impl ReadRuntimeVersion for NativeExecutor {
+    fn read_runtime_version(
+        &amp;self,
+        _wasm_code: &amp;[u8],
+        _ext: &amp;mut dyn Externalities,
+    ) -&gt; std::result::Result&lt;Vec&lt;u8&gt;, String&gt; {
+        Ok(self.version.runtime_version.encode())
+    }
+}
+
+impl RuntimeVersionOf for NativeExecutor {
+    fn runtime_version(
+        &amp;self,
+        _ext: &amp;mut dyn Externalities,
+        _runtime_code: &amp;RuntimeCode,
+    ) -&gt; Result&lt;RuntimeVersion&gt; {
+        Ok(self.version.runtime_version.clone())
+    }
+}
+
+impl CodeExecutor for NativeExecutor {
+    type Error = Error;
+
+    fn call&lt;
+        R: Decode + Encode + PartialEq,
+        NC: FnOnce() -&gt; result::Result&lt;R, Box&lt;dyn std::error::Error + Send + Sync&gt;&gt; + UnwindSafe,
+    &gt;(
+        &amp;self,
+        ext: &amp;mut dyn Externalities,
+        _runtime_code: &amp;RuntimeCode,
+        method: &amp;str,
+        data: &amp;[u8],
+        use_native: bool,
+        native_call: Option&lt;NC&gt;,
+    ) -&gt; (Result&lt;NativeOrEncoded&lt;R&gt;&gt;, bool) {
+        let result = match (use_native, native_call) {
+            (true, Some(call)) =&gt; with_externalities_safe(ext, move || (call)())
+                .and_then(|r| r.map(NativeOrEncoded::Native).map_err(Error::ApiError)),
+            _ =&gt; match with_externalities_safe(ext, move || (self.dispatch)(method, data)) {
+                Ok(v) =&gt; v
+                    .map(NativeOrEncoded::Encoded)
+                    .ok_or_else(|| Error::MethodNotFound(method.to_owned())),
+                Err(e) =&gt; Err(e),
+            },
+        };
+
+        (result, true)
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/patractlabs/vertic/blob/master/client/service/src/client/executor.rs">vertic/client/service/src/client/executor.rs</a></p>
+<h2 id="1-use-native-executor-in-our-node"><a class="header" href="#1-use-native-executor-in-our-node">1. use native executor in our node</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub fn new_partial(config: &amp;Configuration) -&gt; Result&lt;Service, ServiceError&gt; {
+    let executor = NativeExecutor {
+        dispatch: magnet_runtime::api::dispatch,
+        version: magnet_runtime::native_version(),
+    };
+    
+    // ...
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/patractlabs/vertic/blob/422dd12c0b096ebf65ad4065d17872d0e62ed9ac/node/magnet/src/service.rs#L40">vertic/node/magnet/src/service.rs#L40</a></p>
 
                     </main>
 
