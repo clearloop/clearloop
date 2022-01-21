@@ -1,8 +1,8 @@
 # frame implementation
 
-| Repository               | Pull Request               | Code |
-|--------------------------|----------------------------|------|
-| [clearloop/ceres][ceres] | [clearloop/ceres/#73][#73] |      |
+| Repository               | Pull Request               |
+|--------------------------|----------------------------|
+| [clearloop/ceres][ceres] | [clearloop/ceres/#73][#73] |
 
 Here is an implementation of `frame` in ceres, like the `stack` in `pallet-contracts`,
 this enables calling contracts inside contracts.

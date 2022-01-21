@@ -1,8 +1,8 @@
 # XCM debugging
 
-| Repository             | Pull Request               | Sample |
-|------------------------|----------------------------|--------|
-| [ChainSafe/PINT][PINT] | [ChainSafe/PINT#474][#474] |        |
+| Repository             | Pull Request               |
+|------------------------|----------------------------|
+| [ChainSafe/PINT][PINT] | [ChainSafe/PINT#474][#474] |
 
 
 this part is not a sample in strict, just shows what I did in `#294` for debugging

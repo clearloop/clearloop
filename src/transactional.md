@@ -1,8 +1,8 @@
 # transactional
 
-| Repository             | Pull Request               | Sample                                      |
-|------------------------|----------------------------|---------------------------------------------|
-| [ChainSafe/PINT][PINT] | [ChainSafe/PINT#294][#294] | [pallets/asset-index/src/lib.rs#L700][code] |
+| Repository             | Pull Request               |
+|------------------------|----------------------------|
+| [ChainSafe/PINT][PINT] | [ChainSafe/PINT#294][#294] |
 
 This sample basicly shows how to handle storage mutation in failing transactions.
 

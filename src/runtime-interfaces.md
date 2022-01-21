@@ -1,8 +1,8 @@
 # runtime interfaces
 
-| Repository                           | Pull Request                    | Code |
-|--------------------------------------|---------------------------------|------|
-| [ChainSafe/filecoindot][filecoindot] | [ChainSafe/filecoindot#89][#89] |      |
+| Repository                           | Pull Request                    |
+|--------------------------------------|---------------------------------|
+| [ChainSafe/filecoindot][filecoindot] | [ChainSafe/filecoindot#89][#89] |
 
 this sample shows how to use runtime interfaces to call `std` methods in pallets.
 

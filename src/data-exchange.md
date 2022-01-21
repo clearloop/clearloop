@@ -1,8 +1,8 @@
 # data exchange
 
-| Repository               | Pull Request | Code |
-|--------------------------|--------------|------|
-| [clearloop/ceres][ceres] |              |      |
+| Repository               | Pull Request |
+|--------------------------|--------------|
+| [clearloop/ceres][ceres] |              |
 
 this sample introduces the shared data between wasm environment and the runtime
 of smart contract.

@@ -1,8 +1,8 @@
 # function generator
 
-| Repository               | Pull Request | Code |
-|--------------------------|--------------|------|
-| [clearloop/ceres][ceres] |              |      |
+| Repository               | Pull Request |
+|--------------------------|--------------|
+| [clearloop/ceres][ceres] |              |
 
 this is just a show case of the function generator in ceres.
 

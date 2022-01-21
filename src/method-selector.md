@@ -1,8 +1,8 @@
 # method selector
 
-| Repository               | Pull Request | Code |
-|--------------------------|--------------|------|
-| [clearloop/ceres][ceres] |              |      |
+| Repository               | Pull Request |
+|--------------------------|--------------|
+| [clearloop/ceres][ceres] |              |
 
 this sample basicly introduces the selector implementation in ceres, which just 
 like the implementation in `pallet-contracts`.
