@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">intro</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> pallet-operation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="transactional.html"><strong aria-hidden="true">1.1.</strong> transactional</a></li><li class="chapter-item expanded "><a href="runtime-interfaces.html"><strong aria-hidden="true">1.2.</strong> runtime interfaces</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> parachain</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="xcm-debugging.html"><strong aria-hidden="true">2.1.</strong> XCM debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> smart contract</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="method-selector.html"><strong aria-hidden="true">3.1.</strong> method selector</a></li><li class="chapter-item expanded "><a href="frame-implementation.html" class="active"><strong aria-hidden="true">3.2.</strong> frame implementation</a></li><li class="chapter-item expanded "><a href="function-generator.html"><strong aria-hidden="true">3.3.</strong> function generator</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> client</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="refactor-call-executor.html"><strong aria-hidden="true">4.1.</strong> refactor call executor</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> rpc</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-offchain-storage-in-rpc.html"><strong aria-hidden="true">5.1.</strong> use offchain storage in rpc</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> ocw</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="offchain-worker-implementation.html"><strong aria-hidden="true">6.1.</strong> offchain worker implementation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> polkadotjs</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="polkadotjs-e2e-util.html"><strong aria-hidden="true">7.1.</strong> polkadotjs e2e util</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">intro</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> pallet-operation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="transactional.html"><strong aria-hidden="true">1.1.</strong> transactional</a></li><li class="chapter-item expanded "><a href="runtime-interfaces.html"><strong aria-hidden="true">1.2.</strong> runtime interfaces</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> parachain</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="xcm-debugging.html"><strong aria-hidden="true">2.1.</strong> XCM debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> smart contract</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="method-selector.html"><strong aria-hidden="true">3.1.</strong> method selector</a></li><li class="chapter-item expanded "><a href="data-exchange.html"><strong aria-hidden="true">3.2.</strong> data exchange</a></li><li class="chapter-item expanded "><a href="frame-implementation.html" class="active"><strong aria-hidden="true">3.3.</strong> frame implementation</a></li><li class="chapter-item expanded "><a href="function-generator.html"><strong aria-hidden="true">3.4.</strong> function generator</a></li><li class="chapter-item expanded "><a href="wasm-debugging.html"><strong aria-hidden="true">3.5.</strong> wasm debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> client</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="refactor-call-executor.html"><strong aria-hidden="true">4.1.</strong> refactor call executor</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> rpc</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-offchain-storage-in-rpc.html"><strong aria-hidden="true">5.1.</strong> use offchain storage in rpc</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> ocw</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="offchain-worker-implementation.html"><strong aria-hidden="true">6.1.</strong> offchain worker implementation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> benchmarks</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="call-method-with-mocked-origin.html"><strong aria-hidden="true">7.1.</strong> call method with mocked origin</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> polkadotjs</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="polkadotjs-e2e-util.html"><strong aria-hidden="true">8.1.</strong> polkadotjs e2e util</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -144,12 +144,124 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="frame-implementation"><a class="header" href="#frame-implementation">frame implementation</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td><a href="https://github.com/clearloop/ceres/pull/73">clearloop/ceres/#73</a></td><td></td></tr>
+</tbody></table>
+<p>Here is an implementation of <code>frame</code> in ceres, like the <code>stack</code> in <code>pallet-contracts</code>,
+this enables calling contracts inside contracts.</p>
+<h2 id="0-frame-implmentation"><a class="header" href="#0-frame-implmentation">0. frame implmentation</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// WASM execution frame
+pub trait Frame&lt;Memory: 'static + Clone&gt;: Cache&lt;Memory&gt; {
+    fn active(&amp;self) -&gt; Option&lt;[u8; 32]&gt; {
+        Some(self.frame().last()?.borrow().hash)
+    }
+
+    fn active_set(&amp;self, key: [u8; 32], value: Vec&lt;u8&gt;) -&gt; Option&lt;Vec&lt;u8&gt;&gt; {
+        self.frame()
+            .last()
+            .map(|state| state.borrow_mut().set(key.to_vec(), value))?
+    }
+
+    fn active_get(&amp;self, key: &amp;[u8]) -&gt; Option&lt;Vec&lt;u8&gt;&gt; {
+        self.frame()
+            .last()
+            .map(|state| state.borrow().get(key).map(|v| v.to_vec()))?
+    }
+
+    fn push(&amp;mut self, code_hash: [u8; 32], memory: Memory) {
+        self.frame_mut()
+            .push(Rc::new(RefCell::new(State::new(code_hash, memory))));
+    }
+
+    fn switch(&amp;mut self, code_hash: [u8; 32]) -&gt; Option&lt;()&gt; {
+        let frames = self.frame().clone();
+        self.frame_mut().push(
+            frames
+                .iter()
+                .filter(|v| v.borrow().hash == code_hash)
+                .last()?
+                .clone(),
+        );
+        Some(())
+    }
+
+    fn top(&amp;mut self) -&gt; Option&lt;()&gt; {
+        let frame_mut = self.frame_mut();
+        frame_mut.push(frame_mut[0].clone());
+        Some(())
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/support/src/traits/frame.rs#L6">ceres/crates/support/src/traits/frame.rs#L6</a></p>
+<h2 id="1-prepare-contract-in-sandbox"><a class="header" href="#1-prepare-contract-in-sandbox">1. prepare contract in sandbox</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Preare a new frame
+pub fn prepare(&amp;mut self, code_hash: [u8; 32]) -&gt; Result&lt;()&gt; {
+    let mut cache_mut = self.cache.borrow_mut();
+    if cache_mut.switch(code_hash).is_none() {
+        let contract = cache_mut.get(&amp;code_hash).ok_or(Error::CodeNotFound)?;
+        let limit = ceres_executor::scan_imports(&amp;Module::from_bytes(&amp;contract)?)?;
+        let memory = Memory::new(limit.0, limit.1)?;
+        cache_mut.push(code_hash, memory);
+    }
+    drop(cache_mut);
+
+    Ok(())
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/sandbox/src/lib.rs#L63">ceres/crates/sandbox/src/lib.rs#L63</a></p>
+<p>here we get the calee contract from our code cache, and push it to the top of our stack.</p>
+<h2 id="2-invoke-method-in-sandbox"><a class="header" href="#2-invoke-method-in-sandbox">2. invoke method in sandbox</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Invoke (ink) method
+pub fn invoke(
+    &amp;mut self,
+    code_hash: [u8; 32],
+    method: &amp;str,
+    data: Vec&lt;u8&gt;,
+) -&gt; Result&lt;([u8; 32], ReturnData)&gt; {
+    self.input = Some(data);
+
+    // prepare contract
+    self.prepare(code_hash)?;
+
+    // invoke with provided `data`
+    let mut executor = Executor::new(code_hash, self)?;
+    let ret = executor.invoke(method, &amp;[], self)?;
+
+    // Pop state
+    let mut cache_mut = self.cache.borrow_mut();
+    cache_mut.top().ok_or(Error::StateNotFound)?;
+    cache_mut.flush().ok_or(Error::FlushDataFailed)?;
+    drop(cache_mut);
+
+    // flush data
+    self.cache
+        .borrow_mut()
+        .flush()
+        .ok_or(Error::FlushDataFailed)?;
+    Ok((code_hash, ret.data))
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/sandbox/src/instantiate.rs#L17">ceres/crates/sandbox/src/instantiate.rs#L17</a></p>
+<p>in this sample, we call the method of the callee contract and get back to the top level,
+all of this are embedded in a wasm call.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                                                    <a rel="prev" href="method-selector.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                                    <a rel="prev" href="data-exchange.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
@@ -163,7 +275,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                                    <a rel="prev" href="method-selector.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                    <a rel="prev" href="data-exchange.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 

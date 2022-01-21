@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">intro</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> pallet-operation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="transactional.html"><strong aria-hidden="true">1.1.</strong> transactional</a></li><li class="chapter-item expanded "><a href="runtime-interfaces.html"><strong aria-hidden="true">1.2.</strong> runtime interfaces</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> parachain</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="xcm-debugging.html"><strong aria-hidden="true">2.1.</strong> XCM debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> smart contract</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="method-selector.html"><strong aria-hidden="true">3.1.</strong> method selector</a></li><li class="chapter-item expanded "><a href="frame-implementation.html"><strong aria-hidden="true">3.2.</strong> frame implementation</a></li><li class="chapter-item expanded "><a href="function-generator.html"><strong aria-hidden="true">3.3.</strong> function generator</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> client</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="refactor-call-executor.html"><strong aria-hidden="true">4.1.</strong> refactor call executor</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> rpc</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-offchain-storage-in-rpc.html"><strong aria-hidden="true">5.1.</strong> use offchain storage in rpc</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> ocw</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="offchain-worker-implementation.html"><strong aria-hidden="true">6.1.</strong> offchain worker implementation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> polkadotjs</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="polkadotjs-e2e-util.html"><strong aria-hidden="true">7.1.</strong> polkadotjs e2e util</a></li></ol></li></ol>            </div>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="intro.html">intro</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> pallet-operation</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="transactional.html"><strong aria-hidden="true">1.1.</strong> transactional</a></li><li class="chapter-item expanded "><a href="runtime-interfaces.html"><strong aria-hidden="true">1.2.</strong> runtime interfaces</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> parachain</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="xcm-debugging.html"><strong aria-hidden="true">2.1.</strong> XCM debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> smart contract</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="method-selector.html"><strong aria-hidden="true">3.1.</strong> method selector</a></li><li class="chapter-item expanded "><a href="data-exchange.html"><strong aria-hidden="true">3.2.</strong> data exchange</a></li><li class="chapter-item expanded "><a href="frame-implementation.html"><strong aria-hidden="true">3.3.</strong> frame implementation</a></li><li class="chapter-item expanded "><a href="function-generator.html"><strong aria-hidden="true">3.4.</strong> function generator</a></li><li class="chapter-item expanded "><a href="wasm-debugging.html"><strong aria-hidden="true">3.5.</strong> wasm debugging</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> client</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="refactor-call-executor.html"><strong aria-hidden="true">4.1.</strong> refactor call executor</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> rpc</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-offchain-storage-in-rpc.html"><strong aria-hidden="true">5.1.</strong> use offchain storage in rpc</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> ocw</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="offchain-worker-implementation.html"><strong aria-hidden="true">6.1.</strong> offchain worker implementation</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> benchmarks</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="call-method-with-mocked-origin.html"><strong aria-hidden="true">7.1.</strong> call method with mocked origin</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> polkadotjs</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="polkadotjs-e2e-util.html"><strong aria-hidden="true">8.1.</strong> polkadotjs e2e util</a></li></ol></li></ol>            </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
@@ -377,11 +377,388 @@ debug this issue if you're writing an integration tests between kusama and you D
 </span></code></pre></pre>
 <p><a href="https://github.com/ChainSafe/PINT/blob/acb2900a8bf45044aa15c0dd22d2d947f168bf2f/runtime/integration-tests/src/prelude.rs#L19">ChainSafe/PINT/runtime/integration-tests/src/prelude.rs#L19</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="method-selector"><a class="header" href="#method-selector">method selector</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+</tbody></table>
+<p>this sample basicly introduces the selector implementation in ceres, which just 
+like the implementation in <code>pallet-contracts</code>.</p>
+<p>with this knowledge, you already can master the secret of passing arguments to the
+executor of webassembly smart contract.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Parse `Vec&lt;u8&gt;` to `Vec&lt;RuntimeValue&gt;`
+///
+/// selector is a string with hex encoding, here we simply concat 
+/// arguments to the selector, which will build the data ink needs
+///
+/// see https://paritytech.github.io/ink-docs/macros-attributes/selector/
+pub fn parse_args(selector: &amp;str, args: Vec&lt;Vec&lt;u8&gt;&gt;, tys: Vec&lt;u32&gt;) -&gt; Result&lt;Vec&lt;u8&gt;&gt; {
+    // signature check
+    if args.len() != tys.len() {
+        return Err(Error::InvalidArgumentLength {
+            expect: tys.len(),
+            input: args.len(),
+        });
+    }
+
+    let mut res = step_hex(selector)
+        .ok_or(Error::DecodeSelectorFailed)?
+        .to_vec();
+    for mut arg in args {
+        log::debug!(&quot;-----&gt; {:?}&quot;, arg);
+        res.append(&amp;mut arg);
+    }
+
+    Ok(res)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/runtime/src/method.rs#L22">ceres/crates/runtime/src/method.rs#L22</a></p>
+<p>for how to handle this data in the executor, plz read the next chapter.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="data-exchange"><a class="header" href="#data-exchange">data exchange</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+</tbody></table>
+<p>this sample introduces the shared data between wasm environment and the runtime
+of smart contract.</p>
+<h2 id="0-overview-invoke-contract-method"><a class="header" href="#0-overview-invoke-contract-method">0. overview, invoke contract method</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Invoke (ink) method
+pub fn invoke(
+    &amp;mut self,
+    method: InkMethod,
+    inner_method: &amp;str,
+    args: Vec&lt;Vec&lt;u8&gt;&gt;,
+    tx: Option&lt;Transaction&gt;,
+) -&gt; Result&lt;Option&lt;Vec&lt;u8&gt;&gt;&gt; {
+    // construct transaction
+    if let Some(tx) = tx {
+        self.sandbox.tx = tx;
+    }
+
+    // set input
+    self.sandbox.input = Some(method.parse(&amp;self.metadata, inner_method, args)?);
+
+    // get actived frame
+    let hash = self
+        .cache
+        .borrow()
+        .active()
+        .ok_or(ceres_executor::Error::CodeNotFound)?;
+        
+    // execute method
+    Executor::new(
+        convert::to_storage_key(&amp;hash[..]).ok_or(ceres_executor::Error::CodeNotFound)?,
+        &amp;mut self.sandbox,
+    )?
+    .invoke(&amp;method.to_string(), &amp;[], &amp;mut self.sandbox)
+    .map_err(|error| Error::CallContractFailed { error })?;
+
+    // flush data
+    self.cache
+        .borrow_mut()
+        .flush()
+        .ok_or(Error::FlushDataFailed)?;
+    Ok(self.sandbox.ret.take())
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/runtime/src/runtime.rs#L107">ceres/crates/runtime/src/runtime.rs#L107</a></p>
+<p>this is a overview of invoking a method of a contract</p>
+<ol start="0">
+<li>set context to the sandbox</li>
+<li>get actived frame/layer ( contract )</li>
+<li>call method with sandbox</li>
+<li>apply changes to storage</li>
+</ol>
+<h2 id="1-the-sandbox"><a class="header" href="#1-the-sandbox">1. the sandbox</a></h2>
+<p>sandbox in ceres is exactly the shared environment between wasm executor and our runtime, we 
+can put anything including functions into it.</p>
+<p>in the implementation of the environment of ink! contract, sandbox also holds the interfaces
+of our substrate chains, for example, <code>weight_price</code>, <code>block_height</code>, etc.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Wrap host function into `Func`
+pub fn wrap_fn&lt;T&gt;(store: &amp;Store, state: usize, f: usize, sig: FuncType) -&gt; Func {
+    let func = move |_: Caller&lt;'_&gt;, args: &amp;[Val], results: &amp;mut [Val]| {
+        let mut inner_args = vec![];
+        for arg in args {
+            inner_args.push(from_val(arg.clone()));
+        }
+
+        // HACK the LIFETIME
+        //
+        // # Safety
+        //
+        // The runtime constructed only for one call, the changed data will be
+        // written into storage after the lifetime
+        //
+        // NOTE: 
+        //
+        // here we pass the pointer of `T` to function directly to break
+        // the lifetime limit
+        //
+        // in the latest wasmtime, we don't need to do this since there is a
+        // state holding in the executor of wasmtime
+        let state: &amp;mut T = unsafe { mem::transmute(state) };
+        let func: HostFuncType&lt;T&gt; = unsafe { mem::transmute(f) };
+        match func(state, &amp;inner_args) {
+            Ok(Some(ret)) =&gt; {
+                // # Safty
+                //
+                // This `result.len()` should always &lt;= 1 since the length of
+                // the result length of `HostFuncType` is 1
+                if results.len() == 1 {
+                    results[0] = to_val(ret);
+                } else {
+                    return Err(anyhow::Error::new(Error::UnExpectedReturnValue).into());
+                }
+                Ok(())
+            }
+            Ok(None) =&gt; Ok(()),
+            Err(e) =&gt; Err(match e {
+                Error::Return(data) =&gt; Trap::new(format!(&quot;0x{}&quot;, hex::encode(data.encode()))),
+                e =&gt; anyhow::Error::new(e).into(),
+            }),
+        }
+    };
+    Func::new(store, sig, func)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/executor/src/wasmtime/util.rs#L27">ceres/crates/executor/src/wasmtime/util.rs#L27</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="frame-implementation"><a class="header" href="#frame-implementation">frame implementation</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td><a href="https://github.com/clearloop/ceres/pull/73">clearloop/ceres/#73</a></td><td></td></tr>
+</tbody></table>
+<p>Here is an implementation of <code>frame</code> in ceres, like the <code>stack</code> in <code>pallet-contracts</code>,
+this enables calling contracts inside contracts.</p>
+<h2 id="0-frame-implmentation"><a class="header" href="#0-frame-implmentation">0. frame implmentation</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// WASM execution frame
+pub trait Frame&lt;Memory: 'static + Clone&gt;: Cache&lt;Memory&gt; {
+    fn active(&amp;self) -&gt; Option&lt;[u8; 32]&gt; {
+        Some(self.frame().last()?.borrow().hash)
+    }
+
+    fn active_set(&amp;self, key: [u8; 32], value: Vec&lt;u8&gt;) -&gt; Option&lt;Vec&lt;u8&gt;&gt; {
+        self.frame()
+            .last()
+            .map(|state| state.borrow_mut().set(key.to_vec(), value))?
+    }
+
+    fn active_get(&amp;self, key: &amp;[u8]) -&gt; Option&lt;Vec&lt;u8&gt;&gt; {
+        self.frame()
+            .last()
+            .map(|state| state.borrow().get(key).map(|v| v.to_vec()))?
+    }
+
+    fn push(&amp;mut self, code_hash: [u8; 32], memory: Memory) {
+        self.frame_mut()
+            .push(Rc::new(RefCell::new(State::new(code_hash, memory))));
+    }
+
+    fn switch(&amp;mut self, code_hash: [u8; 32]) -&gt; Option&lt;()&gt; {
+        let frames = self.frame().clone();
+        self.frame_mut().push(
+            frames
+                .iter()
+                .filter(|v| v.borrow().hash == code_hash)
+                .last()?
+                .clone(),
+        );
+        Some(())
+    }
+
+    fn top(&amp;mut self) -&gt; Option&lt;()&gt; {
+        let frame_mut = self.frame_mut();
+        frame_mut.push(frame_mut[0].clone());
+        Some(())
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/support/src/traits/frame.rs#L6">ceres/crates/support/src/traits/frame.rs#L6</a></p>
+<h2 id="1-prepare-contract-in-sandbox"><a class="header" href="#1-prepare-contract-in-sandbox">1. prepare contract in sandbox</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Preare a new frame
+pub fn prepare(&amp;mut self, code_hash: [u8; 32]) -&gt; Result&lt;()&gt; {
+    let mut cache_mut = self.cache.borrow_mut();
+    if cache_mut.switch(code_hash).is_none() {
+        let contract = cache_mut.get(&amp;code_hash).ok_or(Error::CodeNotFound)?;
+        let limit = ceres_executor::scan_imports(&amp;Module::from_bytes(&amp;contract)?)?;
+        let memory = Memory::new(limit.0, limit.1)?;
+        cache_mut.push(code_hash, memory);
+    }
+    drop(cache_mut);
+
+    Ok(())
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/sandbox/src/lib.rs#L63">ceres/crates/sandbox/src/lib.rs#L63</a></p>
+<p>here we get the calee contract from our code cache, and push it to the top of our stack.</p>
+<h2 id="2-invoke-method-in-sandbox"><a class="header" href="#2-invoke-method-in-sandbox">2. invoke method in sandbox</a></h2>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Invoke (ink) method
+pub fn invoke(
+    &amp;mut self,
+    code_hash: [u8; 32],
+    method: &amp;str,
+    data: Vec&lt;u8&gt;,
+) -&gt; Result&lt;([u8; 32], ReturnData)&gt; {
+    self.input = Some(data);
+
+    // prepare contract
+    self.prepare(code_hash)?;
+
+    // invoke with provided `data`
+    let mut executor = Executor::new(code_hash, self)?;
+    let ret = executor.invoke(method, &amp;[], self)?;
+
+    // Pop state
+    let mut cache_mut = self.cache.borrow_mut();
+    cache_mut.top().ok_or(Error::StateNotFound)?;
+    cache_mut.flush().ok_or(Error::FlushDataFailed)?;
+    drop(cache_mut);
+
+    // flush data
+    self.cache
+        .borrow_mut()
+        .flush()
+        .ok_or(Error::FlushDataFailed)?;
+    Ok((code_hash, ret.data))
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/1a248b8335a9a229803a298ef373e5c4990a48bb/crates/sandbox/src/instantiate.rs#L17">ceres/crates/sandbox/src/instantiate.rs#L17</a></p>
+<p>in this sample, we call the method of the callee contract and get back to the top level,
+all of this are embedded in a wasm call.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="function-generator"><a class="header" href="#function-generator">function generator</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+</tbody></table>
+<p>this is just a show case of the function generator in ceres.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Parse host function
+pub fn parse(attr: TokenStream, item: TokenStream) -&gt; TokenStream {
+    let ts = item;
+    let input: HostFunction = parse_macro_input!(ts);
+
+    // construct host trait
+    let module = attr.to_string();
+    let name_str = input.name.to_string();
+
+    // construct struct
+    let struct_ident = input.struct_ident(&amp;module);
+
+    // construct function
+    let content = input.content;
+    let mut attr_t = TokenStream2::new();
+    for attr in input.attrs {
+        attr.to_tokens(&amp;mut attr_t);
+    }
+
+    // declare args
+    let arg_len = &amp;input.fields.len();
+    let mut args = TokenStream2::new();
+    for i in 0..*arg_len {
+        (&amp;mut args).extend(input.fields[i].declare(i))
+    }
+
+    // quote output
+    let tks = quote! {
+<span class="boring">        attr_t
+</span>        pub struct #struct_ident;
+
+        impl Host for #struct_ident {
+            fn module() -&gt; &amp;'static str {
+<span class="boring">                module
+</span>            }
+
+            fn name() -&gt; &amp;'static str {
+<span class="boring">                name_str
+</span>            }
+
+            fn wrap(sandbox: &amp;mut Sandbox, args: &amp;[Value]) -&gt; Result&lt;Option&lt;Value&gt;&gt; {
+                log::debug!(&quot;call {}::{}&quot;, #module, #name_str);
+
+                if args.len() != #arg_len {
+                    return Err(Error::WrongArugmentLength);
+                }
+
+<span class="boring">                args
+</span>
+<span class="boring">                content
+</span>            }
+        }
+    };
+
+    tks.into()
+}
+
+<span class="boring">}
+</span></code></pre></pre>
+<p><a href="https://github.com/clearloop/ceres/blob/master/crates/derive/src/attr/host.rs">ceres/crates/derive/src/attr/host.rs</a></p>
+<p>which will convert </p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[host(seal0)]
+pub fn block_number(out_ptr: u32, out_len_ptr: u32) -&gt; Result&lt;Option&lt;Value&gt;&gt; {
+    sandbox.write_sandbox_output(out_ptr, out_len_ptr, &amp;sandbox.block_number())?;
+    Ok(None)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>into </p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Seal0BlockNumber;
+
+impl Host for Seal0BlockNumber {
+    fn module() -&gt; &amp;'static str {
+        &quot;seal0&quot;
+    }
+    fn name() -&gt; &amp;'static str {
+        &quot;block_number&quot;
+    }
+
+    fn wrap(sandbox: &amp;mut Sandbox, args: &amp;[Value]) -&gt; Result&lt;Option&lt;Value&gt;&gt; {
+        if args.len() != 2usize {
+            return Err(Error::WrongArugmentLength);
+        }
+        let out_ptr: u32 = args[0usize].into();
+        let out_len_ptr: u32 = args[1usize].into();
+        {
+            sandbox.write_sandbox_output(out_ptr, out_len_ptr, &amp;sandbox.block_number())?;
+            Ok(None)
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="wasm-debugging"><a class="header" href="#wasm-debugging">wasm debugging</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="refactor-call-executor"><a class="header" href="#refactor-call-executor">refactor call executor</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th><th>Code</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/clearloop/ceres">clearloop/ceres</a></td><td></td><td></td></tr>
+</tbody></table>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="use-offchain-storage-in-rpc"><a class="header" href="#use-offchain-storage-in-rpc">use offchain storage in rpc</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="offchain-worker-implementation"><a class="header" href="#offchain-worker-implementation">offchain worker implementation</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="call-method-with-mocked-origin"><a class="header" href="#call-method-with-mocked-origin">call method with mocked origin</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="polkadotjs-e2e-util"><a class="header" href="#polkadotjs-e2e-util">polkadotjs e2e util</a></h1>
 
                     </main>
