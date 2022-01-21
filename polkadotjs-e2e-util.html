@@ -144,6 +144,118 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="polkadotjs-e2e-util"><a class="header" href="#polkadotjs-e2e-util">polkadotjs e2e util</a></h1>
+<table><thead><tr><th>Repository</th><th>Pull Request</th></tr></thead><tbody>
+<tr><td><a href="https://github.com/ChainSafe/PINT">ChainSafe/PINT</a></td><td><a href="https://github.com/ChainSafe/PINT/pull/83">ChainSafe/PINT#83</a></td></tr>
+</tbody></table>
+<p>designed an elegant e2e toolkit with polkadotjs in PINT.</p>
+<h2 id="0-config"><a class="header" href="#0-config">0. config</a></h2>
+<pre><code class="language-typescript">/**
+ * js/e2e/index.ts
+ */
+
+// Tests
+const TESTS = (api: ApiPromise): Extrinsic[] =&gt; [
+    {
+        pallet: &quot;assetIndex&quot;,
+        call: &quot;addAsset&quot;,
+        args: [
+            42,
+            1000000,
+            api.createType(&quot;AssetAvailability&quot; as any),
+            1000000,
+        ],
+    },
+];
+
+// main
+(async () =&gt; {
+    await Runner.run(TESTS);
+})();
+</code></pre>
+<p><a href="https://github.com/ChainSafe/PINT/pull/83">ChainSafe/PINT#83</a></p>
+<h2 id="1-runner"><a class="header" href="#1-runner">1. runner</a></h2>
+<pre><code class="language-typescript">/**
+ * js/e2e/src/runner.ts
+ */
+
+export default class Runner implements Config {
+    public api: ApiPromise;
+    public pair: KeyringPair;
+    public exs: Extrinsic[];
+    
+    /**
+     * run E2E tests
+     *
+     * @param {Builder} exs - Extrinsic builder
+     * @param {string} ws - &quot;ws://0.0.0.0:9988&quot; by default
+     * @param {string} uri - &quot;//Alice&quot; by default
+     * @returns {Promise&lt;Runner&gt;}
+     */
+    static async run(
+        exs: Builder,
+        ws: string = &quot;ws://127.0.0.1:9988&quot;,
+        uri: string = &quot;//Alice&quot;
+    ): Promise&lt;void&gt; {
+        console.log(&quot;bootstrap e2e tests...&quot;);
+        console.log(&quot;establishing ws connections... (around 2 mins)&quot;);
+        const ps = await launch(&quot;pipe&quot;);
+        ps.stdout.on(&quot;data&quot;, async (chunk: Buffer) =&gt; {
+            process.stdout.write(chunk.toString());
+            if (chunk.includes(LAUNCH_COMPLETE)) {
+                console.log(&quot;COMPLETE LAUNCH!&quot;);
+                const runner = await Runner.build(exs, ws, uri);
+                await runner.runTxs(ps);
+            }
+        });
+
+        // Log errors
+        ps.stderr.on(&quot;data&quot;, (chunk: Buffer) =&gt; console.log(chunk.toString()));
+
+        // Kill all processes when exiting.
+        process.on(&quot;exit&quot;, () =&gt; killAll(ps));
+
+        // Handle ctrl+c to trigger `exit`.
+        process.on(&quot;SIGINT&quot;, () =&gt; killAll(ps));
+    }
+
+    /**
+     * Execute transactions
+     *
+     * @returns void
+     */
+    public async runTxs(ps: ChildProcess): Promise&lt;void&gt; {
+        this.exs.forEach(async (ex: Extrinsic) =&gt; {
+            console.log(`run extrinsic ${ex.pallet}.${ex.call}...`);
+            console.log(`\t arguments: ${JSON.stringify(ex.args)}`);
+
+            if (ex.block) await this.waitBlock(ex.block);
+            
+            // NOTE
+            // 
+            // here we use `this.api.tx[ex.pallet][ex.call](...ex.arg)` to extract 
+            // transactions from our config
+            await this.timeout(
+                this.api.tx[ex.pallet]
+                    [ex.call](...ex.args)
+                    .signAndSend(this.pair, (res) =&gt; {
+                        this.checkError(res);
+                    }),
+                ex.timeout
+            ).catch((e) =&gt; {
+                throw e;
+            });
+        });
+
+        // exit
+        console.log(&quot;COMPLETE TESTS!&quot;);
+        ps.send &amp;&amp; ps.send(&quot;exit&quot;);
+        process.exit(0);
+    }
+    
+    // ...
+}
+</code></pre>
+<p><a href="https://github.com/ChainSafe/PINT/pull/83">ChainSafe/PINT#83</a></p>
 
                     </main>
 
